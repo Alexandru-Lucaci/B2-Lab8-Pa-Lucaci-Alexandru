@@ -16,21 +16,14 @@ public class Database {
             con = DriverManager. getConnection(url,user,password);
             con.setAutoCommit(false);
 //            System.out.println("connection done");
-//            Statement stmt = con.createStatement();
-//            String sql="select table_name from user_tables";
-//            ResultSet rs= stmt.executeQuery(sql);
-//            System.out.println(rs.toString());
-//            while(rs.next())
-//            {
-//                String s = rs.getString("table_name");
-//                System.out.println(s);
-//            }
 
         }catch ( Exception e){
             System.out.println(e);
         }
     }
     public static Connection getConnection(){
+        closeConnection();
+        createConnection();
         return con;
     }
 
