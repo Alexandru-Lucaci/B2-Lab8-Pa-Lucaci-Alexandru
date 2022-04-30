@@ -21,11 +21,11 @@ public class ContinentDAO implements Workable{
             int ids=rs.getInt("MAX(ID)");
 
 //                String s = rs.getString("table_name");
-            System.out.println(ids);
-            System.out.println(ids+1);
+//            System.out.println(ids);
+//            System.out.println(ids+1);
             pstm.setInt(1,(ids+1));
             pstm.setString(2, name);
-            System.out.println("i'm here");
+//            System.out.println("i'm here");
             pstm.executeUpdate();
             con.commit();
 
