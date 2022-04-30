@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 public class ContinentDAO implements Workable{
@@ -7,6 +8,7 @@ public class ContinentDAO implements Workable{
     public void create(String name) throws SQLException {
         Connection con = Database.getConnection();
 //
+        name=name.toUpperCase();
         try(PreparedStatement pstm = con.prepareStatement("insert into continents values ((?), (?))")){
 
 
@@ -39,6 +41,7 @@ public class ContinentDAO implements Workable{
     @Override
     public Integer findByName(String name) throws SQLException {
         Connection con = Database.getConnection();
+        name=name.toUpperCase();
         int ids=-1;
         try {
             Statement stmt = con.createStatement();
