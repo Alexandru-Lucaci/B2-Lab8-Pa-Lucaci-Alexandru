@@ -35,7 +35,8 @@ public class Main {
 //            cities.create("Chisinau","moldova",1, (float) 32.2,3);
 //            cities.create("Cluj-Napoca","România",(float)33.2,3);
             cities.seeAll();
-            cities.getData();
+//            cities.getData();
+            System.out.println(CityDao.distance("YAREN","KABUL")+" km");
         }catch (Exception e)
         {
             System.out.println(e);

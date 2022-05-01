@@ -2,6 +2,8 @@ import au.com.bytecode.opencsv.CSVReader;
 
 import java.sql.*;
 import java.io.*;
+import java.util.Locale;
+
 //import au.com.bytecode.opencsv.CSVReader;
 public class CityDao implements Workable{
 
@@ -181,8 +183,9 @@ public class CityDao implements Workable{
             int lnNum=0;
             while((nextLine=reader.readNext())!=null){
                 lnNum++;
-                sql.setString(1,nextLine[1]);
-                sql.setString(2,nextLine[0]);
+
+                sql.setString(1,nextLine[1].toUpperCase());
+                sql.setString(2,nextLine[0].toUpperCase());
                 sql.setInt(3,1);
 //                System.out.println("heer");
                 sql.setDouble(4,Double.parseDouble(nextLine[2]));
@@ -241,4 +244,68 @@ public class CityDao implements Workable{
             con.close();
         }
     }
+
+    public static double distance (String name1, String name2) throws SQLException {
+        Connection con = Database.getConnection();
+        name1=name1.toUpperCase();
+        double latitude=0.0;
+        double longitude=0.0;
+        double latitude2=0.0;
+        double longitude2=0.0;
+        try {
+            Statement stmt = con.createStatement();
+            String sql = "select LATITUDE, LONGITUDE from cities where name =\'" + name1 + "\' order by id";
+//            System.out.println("hello");
+            ResultSet rs = stmt.executeQuery(sql);
+            rs.next();
+
+            latitude = rs.getDouble("LATITUDE");
+            longitude=rs.getDouble("LONGITUDE");
+//            System.out.println(latitude+" "+longitude);
+            sql = "select LATITUDE, LONGITUDE from cities where name =\'" + name2 + "\' order by id";
+            rs = stmt.executeQuery(sql);
+            rs.next();
+            latitude2 = rs.getDouble("LATITUDE");
+            longitude2=rs.getDouble("LONGITUDE");
+
+            con.close();
+
+            return distance(latitude,latitude2,longitude,longitude2);
+        }catch (Exception e)
+        {
+            System.out.println(e);
+            return 0;
+        }
+
+ }
+    public static double distance(double lat1,
+                                  double lat2, double lon1,
+                                  double lon2)
+    {
+
+        // The math module contains a function
+        // named toRadians which converts from
+        // degrees to radians.
+        lon1 = Math.toRadians(lon1);
+        lon2 = Math.toRadians(lon2);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        // Haversine formula
+        double dlon = lon2 - lon1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        double r = 6371;
+
+        // calculate the result
+        return(c * r);
+    }
+
 }
