@@ -21,10 +21,21 @@ public class Main {
 //            countries.create("cehia","Europa",123);
 //            countries.create("Moldova","EUROPA");
 //            countries.create("bulgaria","europa",1234);
+//            countries.create("românia","europa",222);
+
             System.out.println(countries.findByName("cehia"));
+
             System.out.println(countries.findById(4));
             countries.seeAll();
 
+            var cities = new CityDao();
+//            cities.create("suceava");
+//            cities.create("Iasi","ROMÂNIA");
+//            cities.create("Bucuresti","ROMÂNIA",1);
+//            cities.create("Chisinau","moldova",1, (float) 32.2,3);
+//            cities.create("Cluj-Napoca","România",(float)33.2,3);
+            cities.seeAll();
+            cities.getData();
         }catch (Exception e)
         {
             System.out.println(e);
